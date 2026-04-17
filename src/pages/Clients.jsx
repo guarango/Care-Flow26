@@ -4,13 +4,10 @@ import { base44 } from "@/api/base44Client";
 import PageHeader from "@/components/shared/PageHeader";
 import StatusBadge from "@/components/shared/StatusBadge";
 import EmptyState from "@/components/shared/EmptyState";
-import ServiceEnrollments from "@/components/clients/ServiceEnrollments";
+import ClientIntakeForm from "@/components/clients/ClientIntakeForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -18,17 +15,25 @@ import { Heart, Plus, Search, LayoutGrid, List } from "lucide-react";
 import { useAssignedClients } from "@/hooks/useAssignedClients";
 import { useRole } from "@/hooks/useRole";
 import NoDSPClientsState from "@/components/shared/NoDSPClientsState";
-import AssignedStaffSection from "@/components/clients/AssignedStaffSection";
-
-const genders = ["Male", "Female", "Non-binary", "Other"];
-const clientStatuses = ["Active", "Inactive", "Discharged"];
 
 const emptyClient = {
   first_name: "", last_name: "", date_of_birth: "", gender: "",
-  diagnosis: "", guardian_name: "", guardian_phone: "", address: "",
-  insurance_id: "", insurance_provider: "",
-  service_enrollments: [],
-  status: "Active", notes: ""
+  phone: "", form_completed_by: "", ssn: "", pin: "",
+  medicaid_case_number: "", medicaid_number: "", case_review_date: "", medicaid_case_worker: "",
+  diagnosis: "", address: "", insurance_id: "", insurance_provider: "",
+  pharmacy_name: "", pharmacy_contact: "", prescriber: "", medications: "", allergies: "", medical_concerns: "",
+  support_coordinator_name: "", support_coordinator_email: "", support_coordinator_phone: "",
+  place_of_work_name: "", place_of_work_address: "", place_of_work_phone: "",
+  emergency_contact_name: "", emergency_contact_email: "", emergency_contact_phone: "",
+  emergency_contact_address: "", emergency_contact_method: "", emergency_contact_relation: "",
+  guardian_name: "", guardian_email: "", guardian_phone: "", guardian_address: "",
+  guardian_contact_method: "", guardian_relation: "",
+  pcp_name: "", pcp_address: "", pcp_phone: "",
+  dentist_name: "", dentist_address: "", dentist_phone: "",
+  healthcare_provider1_name: "", healthcare_provider1_address: "", healthcare_provider1_phone: "",
+  healthcare_provider2_name: "", healthcare_provider2_address: "", healthcare_provider2_phone: "",
+  service_enrollments: [], status: "Active",
+  other_information: "", notes: ""
 };
 
 export default function Clients() {
@@ -206,52 +211,16 @@ export default function Clients() {
       )}
 
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent className="max-w-xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle>{editing ? "Edit Client" : "Add Client"}</DialogTitle></DialogHeader>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div><Label>First Name *</Label><Input value={form.first_name} onChange={(e) => setForm({...form, first_name: e.target.value})} /></div>
-              <div><Label>Last Name *</Label><Input value={form.last_name} onChange={(e) => setForm({...form, last_name: e.target.value})} /></div>
-              <div><Label>Date of Birth</Label><Input type="date" value={form.date_of_birth} onChange={(e) => setForm({...form, date_of_birth: e.target.value})} /></div>
-              <div>
-                <Label>Gender</Label>
-                <Select value={form.gender} onValueChange={(v) => setForm({...form, gender: v})}>
-                  <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
-                  <SelectContent>{genders.map(g => <SelectItem key={g} value={g}>{g}</SelectItem>)}</SelectContent>
-                </Select>
-              </div>
-              <div className="col-span-2"><Label>Diagnosis</Label><Input value={form.diagnosis} onChange={(e) => setForm({...form, diagnosis: e.target.value})} /></div>
-              <div><Label>Guardian Name</Label><Input value={form.guardian_name} onChange={(e) => setForm({...form, guardian_name: e.target.value})} /></div>
-              <div><Label>Guardian Phone</Label><Input value={form.guardian_phone} onChange={(e) => setForm({...form, guardian_phone: e.target.value})} /></div>
-              <div className="col-span-2"><Label>Address</Label><Input value={form.address} onChange={(e) => setForm({...form, address: e.target.value})} /></div>
-              <div><Label>Insurance Provider</Label><Input value={form.insurance_provider} onChange={(e) => setForm({...form, insurance_provider: e.target.value})} /></div>
-              <div><Label>Insurance ID</Label><Input value={form.insurance_id} onChange={(e) => setForm({...form, insurance_id: e.target.value})} /></div>
-              <div>
-                <Label>Status</Label>
-                <Select value={form.status} onValueChange={(v) => setForm({...form, status: v})}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>{clientStatuses.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div className="border-t pt-4">
-              <ServiceEnrollments
-                enrollments={form.service_enrollments || []}
-                onChange={(enrollments) => setForm({...form, service_enrollments: enrollments})}
-                serviceCodes={serviceCodes}
-              />
-            </div>
-
-            <div><Label>Notes</Label><Textarea value={form.notes} onChange={(e) => setForm({...form, notes: e.target.value})} rows={3} /></div>
-
-            {editing && (
-              <div className="border-t pt-4">
-                <AssignedStaffSection clientId={editing.id} isAdmin={isAdmin} />
-              </div>
-            )}
-          </div>
-          <DialogFooter>
+          <ClientIntakeForm
+            form={form}
+            setForm={setForm}
+            editing={editing}
+            isAdmin={isAdmin}
+            serviceCodes={serviceCodes}
+          />
+          <DialogFooter className="mt-4">
             <Button variant="outline" onClick={closeDialog}>Cancel</Button>
             <Button onClick={handleSave} disabled={!form.first_name || !form.last_name}>{editing ? "Update" : "Create"}</Button>
           </DialogFooter>

@@ -1,0 +1,240 @@
+{
+  "name": "Client",
+  "type": "object",
+  "properties": {
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "date_of_birth": {
+      "type": "string",
+      "format": "date"
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "Male",
+        "Female",
+        "Non-binary",
+        "Other"
+      ]
+    },
+    "phone": {
+      "type": "string"
+    },
+    "ssn": {
+      "type": "string",
+      "description": "Social Security Number"
+    },
+    "pin": {
+      "type": "string",
+      "description": "Personal Identification Number"
+    },
+    "form_completed_by": {
+      "type": "string",
+      "description": "Name of person filling out the form"
+    },
+    "medicaid_case_number": {
+      "type": "string"
+    },
+    "medicaid_number": {
+      "type": "string"
+    },
+    "case_review_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "medicaid_case_worker": {
+      "type": "string"
+    },
+    "diagnosis": {
+      "type": "string"
+    },
+    "address": {
+      "type": "string"
+    },
+    "insurance_id": {
+      "type": "string"
+    },
+    "insurance_provider": {
+      "type": "string"
+    },
+    "pharmacy_name": {
+      "type": "string"
+    },
+    "pharmacy_contact": {
+      "type": "string"
+    },
+    "prescriber": {
+      "type": "string",
+      "description": "Who prescribes medications"
+    },
+    "medications": {
+      "type": "string",
+      "description": "Medications list"
+    },
+    "allergies": {
+      "type": "string"
+    },
+    "medical_concerns": {
+      "type": "string"
+    },
+    "support_coordinator_name": {
+      "type": "string"
+    },
+    "support_coordinator_email": {
+      "type": "string"
+    },
+    "support_coordinator_phone": {
+      "type": "string"
+    },
+    "place_of_work_name": {
+      "type": "string"
+    },
+    "place_of_work_address": {
+      "type": "string"
+    },
+    "place_of_work_phone": {
+      "type": "string"
+    },
+    "emergency_contact_name": {
+      "type": "string"
+    },
+    "emergency_contact_email": {
+      "type": "string"
+    },
+    "emergency_contact_phone": {
+      "type": "string"
+    },
+    "emergency_contact_address": {
+      "type": "string"
+    },
+    "emergency_contact_method": {
+      "type": "string",
+      "description": "How to contact"
+    },
+    "emergency_contact_relation": {
+      "type": "string"
+    },
+    "guardian_name": {
+      "type": "string"
+    },
+    "guardian_email": {
+      "type": "string"
+    },
+    "guardian_phone": {
+      "type": "string"
+    },
+    "guardian_address": {
+      "type": "string"
+    },
+    "guardian_contact_method": {
+      "type": "string",
+      "description": "How to contact guardian"
+    },
+    "guardian_relation": {
+      "type": "string"
+    },
+    "pcp_name": {
+      "type": "string",
+      "description": "Primary Care Provider name"
+    },
+    "pcp_address": {
+      "type": "string"
+    },
+    "pcp_phone": {
+      "type": "string"
+    },
+    "dentist_name": {
+      "type": "string"
+    },
+    "dentist_address": {
+      "type": "string"
+    },
+    "dentist_phone": {
+      "type": "string"
+    },
+    "healthcare_provider1_name": {
+      "type": "string"
+    },
+    "healthcare_provider1_address": {
+      "type": "string"
+    },
+    "healthcare_provider1_phone": {
+      "type": "string"
+    },
+    "healthcare_provider2_name": {
+      "type": "string"
+    },
+    "healthcare_provider2_address": {
+      "type": "string"
+    },
+    "healthcare_provider2_phone": {
+      "type": "string"
+    },
+    "service_enrollments": {
+      "type": "array",
+      "description": "One entry per service type/schedule the client is enrolled in",
+      "items": {
+        "type": "object",
+        "properties": {
+          "service_type": {
+            "type": "string"
+          },
+          "service_code_id": {
+            "type": "string"
+          },
+          "service_code": {
+            "type": "string"
+          },
+          "rate": {
+            "type": "number"
+          },
+          "rate_type": {
+            "type": "string"
+          },
+          "schedule_days": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "schedule_start_time": {
+            "type": "string"
+          },
+          "schedule_end_time": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "assigned_staff": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Active",
+        "Inactive",
+        "Discharged"
+      ],
+      "default": "Active"
+    },
+    "photo_url": {
+      "type": "string"
+    },
+    "other_information": {
+      "type": "string",
+      "description": "Other applicable information"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "first_name",
+    "last_name"
+  ]
+}
