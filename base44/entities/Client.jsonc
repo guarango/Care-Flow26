@@ -137,6 +137,36 @@
     "guardian_relation": {
       "type": "string"
     },
+    "guardian_is_phi_decision_maker": {
+      "type": "boolean",
+      "default": false,
+      "description": "HIPAA: Guardian is the authorized decision-maker for PHI access and disclosure"
+    },
+    "phi_authorized_contacts": {
+      "type": "array",
+      "description": "HIPAA Policy #4800: Individuals authorized by client/guardian to receive PHI",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "relationship": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "authorized_categories": {
+            "type": "string",
+            "description": "e.g. Medical info, Progress notes, All PHI"
+          }
+        }
+      }
+    },
     "pcp_name": {
       "type": "string",
       "description": "Primary Care Provider name"

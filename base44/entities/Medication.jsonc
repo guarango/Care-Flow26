@@ -1,0 +1,106 @@
+{
+  "name": "Medication",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "client_name": {
+      "type": "string"
+    },
+    "medication_name": {
+      "type": "string"
+    },
+    "dosage": {
+      "type": "string"
+    },
+    "route": {
+      "type": "string",
+      "enum": [
+        "Oral",
+        "Topical",
+        "Injection",
+        "Inhaled",
+        "Sublingual",
+        "Other"
+      ]
+    },
+    "frequency": {
+      "type": "string",
+      "enum": [
+        "Once daily",
+        "Twice daily",
+        "Three times daily",
+        "Four times daily",
+        "As needed",
+        "Weekly",
+        "Other"
+      ]
+    },
+    "scheduled_times": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "prescriber": {
+      "type": "string"
+    },
+    "pharmacy": {
+      "type": "string"
+    },
+    "pharmacy_contact": {
+      "type": "string",
+      "description": "Pharmacy phone number or contact info"
+    },
+    "is_prn": {
+      "type": "boolean",
+      "default": false,
+      "description": "PRN (as-needed) medication"
+    },
+    "prn_instructions": {
+      "type": "string",
+      "description": "When and how to administer PRN medication"
+    },
+    "self_administering": {
+      "type": "string",
+      "enum": [
+        "Company-Administered",
+        "Client Self-Administers",
+        "Supervised Self-Administration"
+      ],
+      "default": "Company-Administered",
+      "description": "Whether company staff or client administers the medication"
+    },
+    "start_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "end_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "discontinuation_note": {
+      "type": "string",
+      "description": "Reason for discontinuation or hold"
+    },
+    "instructions": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Active",
+        "Discontinued",
+        "On Hold"
+      ],
+      "default": "Active"
+    }
+  },
+  "required": [
+    "client_id",
+    "medication_name",
+    "dosage",
+    "frequency"
+  ]
+}

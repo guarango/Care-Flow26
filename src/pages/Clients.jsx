@@ -11,7 +11,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Heart, Plus, Search, LayoutGrid, List } from "lucide-react";
+import { Heart, Plus, Search, LayoutGrid, List, ShieldAlert } from "lucide-react";
 import { useAssignedClients } from "@/hooks/useAssignedClients";
 import { useRole } from "@/hooks/useRole";
 import NoDSPClientsState from "@/components/shared/NoDSPClientsState";
@@ -117,9 +117,18 @@ export default function Clients() {
 
   if (isDSPMode && assignedClientIds.length === 0) return <NoDSPClientsState />;
 
+  // HIPAA: abbreviated display name (e.g. "M. Johnson") for shared/list views
+  const abbrevName = (c) => `${c.first_name?.[0] || ""}. ${c.last_name || ""}`;
+
   return (
     <div>
       <PageHeader title="Client Records" subtitle={`${visibleClients.length} clients`} action={!isDSPMode && <Button onClick={openNew}><Plus className="w-4 h-4 mr-2" />Add Client</Button>} />
+
+      {/* HIPAA Notice — Policy #4800 */}
+      <div className="flex items-start gap-2 mb-4 bg-amber-50 border border-amber-200 rounded-lg px-4 py-2.5 text-sm text-amber-800">
+        <ShieldAlert className="w-4 h-4 mt-0.5 flex-shrink-0 text-amber-600" />
+        <span><strong>HIPAA Notice (Policy #4800):</strong> This screen contains Protected Health Information (PHI). Do not share, screenshot, or export client records through personal devices or unapproved channels. Access is logged and restricted to authorized staff only.</span>
+      </div>
 
       <Card className="mb-6">
         <CardContent className="py-3">
@@ -188,7 +197,9 @@ export default function Clients() {
               <TableBody>
                 {filtered.map((c) => (
                   <TableRow key={c.id} className="cursor-pointer hover:bg-muted/50" onClick={() => openEdit(c)}>
-                    <TableCell className="font-medium">{c.first_name} {c.last_name}</TableCell>
+                    <TableCell className="font-medium">
+                      <span title={`${c.first_name} ${c.last_name}`}>{abbrevName(c)}</span>
+                    </TableCell>
                     <TableCell>
                       <div className="flex flex-wrap gap-1">
                         {(c.service_enrollments || []).length > 0

@@ -357,6 +357,43 @@ export default function EMAR() {
                   <Label htmlFor="is_prn" className="text-sm cursor-pointer">PRN (As Needed)</Label>
                 </div>
               </div>
+              {medForm.is_prn && (
+                <div>
+                  <Label>PRN Instructions</Label>
+                  <Textarea value={medForm.prn_instructions || ""} onChange={e => setMedForm(f => ({ ...f, prn_instructions: e.target.value }))} rows={2} placeholder="When and how to administer..." />
+                </div>
+              )}
+              <div>
+                <Label>Self-Administration</Label>
+                <Select value={medForm.self_administering || "Company-Administered"} onValueChange={v => setMedForm(f => ({ ...f, self_administering: v }))}>
+                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Company-Administered">Company-Administered</SelectItem>
+                    <SelectItem value="Client Self-Administers">Client Self-Administers</SelectItem>
+                    <SelectItem value="Supervised Self-Administration">Supervised Self-Administration</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label>Prescriber</Label>
+                  <Input value={medForm.prescriber || ""} onChange={e => setMedForm(f => ({ ...f, prescriber: e.target.value }))} />
+                </div>
+                <div>
+                  <Label>Pharmacy Name</Label>
+                  <Input value={medForm.pharmacy || ""} onChange={e => setMedForm(f => ({ ...f, pharmacy: e.target.value }))} />
+                </div>
+                <div className="col-span-2">
+                  <Label>Pharmacy Contact</Label>
+                  <Input value={medForm.pharmacy_contact || ""} onChange={e => setMedForm(f => ({ ...f, pharmacy_contact: e.target.value }))} placeholder="Phone or fax number" />
+                </div>
+              </div>
+              {(medForm.status === "Discontinued" || medForm.status === "On Hold") && (
+                <div>
+                  <Label>Discontinuation / Hold Note</Label>
+                  <Textarea value={medForm.discontinuation_note || ""} onChange={e => setMedForm(f => ({ ...f, discontinuation_note: e.target.value }))} rows={2} placeholder="Reason for discontinuation or hold..." />
+                </div>
+              )}
               <div>
                 <Label>Instructions</Label>
                 <Textarea value={medForm.instructions || ""} onChange={e => setMedForm(f => ({ ...f, instructions: e.target.value }))} rows={2} />
@@ -400,7 +437,10 @@ export default function EMAR() {
               <div><Label>Date *</Label><Input type="date" value={logForm.date} onChange={e => setLogForm(f => ({ ...f, date: e.target.value }))} /></div>
               <div><Label>Time</Label><Input type="time" value={logForm.time} onChange={e => setLogForm(f => ({ ...f, time: e.target.value }))} /></div>
             </div>
-            <div><Label>Administered By</Label><Input value={logForm.administered_by_name} onChange={e => setLogForm(f => ({ ...f, administered_by_name: e.target.value }))} /></div>
+            <div className="grid grid-cols-2 gap-4">
+              <div><Label>Administered By (Full Name)</Label><Input value={logForm.administered_by_name} onChange={e => setLogForm(f => ({ ...f, administered_by_name: e.target.value }))} /></div>
+              <div><Label>Staff Initials</Label><Input value={logForm.staff_initials || ""} onChange={e => setLogForm(f => ({ ...f, staff_initials: e.target.value }))} placeholder="e.g. MJ" maxLength={5} /></div>
+            </div>
             <div>
               <Label>Status *</Label>
               <Select value={logForm.status} onValueChange={v => setLogForm(f => ({ ...f, status: v }))}>
@@ -408,6 +448,22 @@ export default function EMAR() {
                 <SelectContent>{logStatuses.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
               </Select>
             </div>
+            <div className="flex items-center gap-2">
+              <input type="checkbox" id="self_admin" checked={!!logForm.self_administered} onChange={e => setLogForm(f => ({ ...f, self_administered: e.target.checked }))} className="w-4 h-4" />
+              <Label htmlFor="self_admin" className="text-sm cursor-pointer">Client Self-Administered</Label>
+            </div>
+            {logForm.status === "Error" && (
+              <div>
+                <Label className="text-destructive">Error Description (Required)</Label>
+                <Textarea value={logForm.error_description || ""} onChange={e => setLogForm(f => ({ ...f, error_description: e.target.value }))} rows={2} placeholder="Describe the error and any adverse effects observed..." />
+              </div>
+            )}
+            {medications.find(m => m.id === logForm.medication_id)?.is_prn && (
+              <div>
+                <Label>PRN Reason & Response</Label>
+                <Textarea value={logForm.prn_reason || ""} onChange={e => setLogForm(f => ({ ...f, prn_reason: e.target.value }))} rows={2} placeholder="Reason for PRN administration and observed response..." />
+              </div>
+            )}
             <div><Label>Notes</Label><Textarea value={logForm.notes} onChange={e => setLogForm(f => ({ ...f, notes: e.target.value }))} rows={2} /></div>
           </div>
           <DialogFooter>

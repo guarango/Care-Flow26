@@ -1,0 +1,209 @@
+{
+  "name": "IncidentReport",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "client_name": {
+      "type": "string"
+    },
+    "reported_by": {
+      "type": "string"
+    },
+    "reported_by_name": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "time": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "Behavioral",
+        "Medical",
+        "Fall",
+        "Elopement",
+        "Property Damage",
+        "Medication Error",
+        "Injury",
+        "Abuse/Neglect",
+        "Exploitation",
+        "Other"
+      ]
+    },
+    "dhhs_level": {
+      "type": "string",
+      "enum": [
+        "Level II \u2014 Critical Incident",
+        "Level III \u2014 Serious Incident"
+      ],
+      "description": "DHHS R501-1-9 incident classification"
+    },
+    "severity": {
+      "type": "string",
+      "enum": [
+        "Low",
+        "Medium",
+        "High",
+        "Critical"
+      ]
+    },
+    "description": {
+      "type": "string"
+    },
+    "staff_involved": {
+      "type": "string"
+    },
+    "injury_occurred": {
+      "type": "boolean",
+      "default": false
+    },
+    "injury_description": {
+      "type": "string"
+    },
+    "medical_treatment_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "medical_treatment_notes": {
+      "type": "string"
+    },
+    "law_enforcement_involved": {
+      "type": "boolean",
+      "default": false
+    },
+    "law_enforcement_notes": {
+      "type": "string"
+    },
+    "level3_missing_person": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level III: Missing person 2+ hours"
+    },
+    "level3_er_visit": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level III: ER or clinic visit"
+    },
+    "level3_self_injurious": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level III: Self-injurious behavior"
+    },
+    "level3_restraint_used": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level III: Restraint used"
+    },
+    "level3_restraint_description": {
+      "type": "string"
+    },
+    "level3_medication_error_adverse": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level III: Medication error with adverse effects"
+    },
+    "level3_property_destruction": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level III: Property destruction $500+"
+    },
+    "level3_drug_alcohol": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level III: Drug/alcohol involvement"
+    },
+    "level3_aspiration_choking": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level III: Aspiration or choking"
+    },
+    "level2_hospitalization": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level II: Hospitalization"
+    },
+    "level2_abuse_neglect": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level II: Abuse/neglect with medical treatment"
+    },
+    "level2_exploitation": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level II: Exploitation of funds"
+    },
+    "level2_law_enforcement_charges": {
+      "type": "boolean",
+      "default": false,
+      "description": "Level II: Law enforcement charges filed"
+    },
+    "initial_report_submitted_24hr": {
+      "type": "boolean",
+      "default": false,
+      "description": "Initial report submitted within 24 hours"
+    },
+    "initial_report_timestamp": {
+      "type": "string",
+      "description": "Timestamp when initial 24-hr report was submitted"
+    },
+    "full_report_completed_5days": {
+      "type": "boolean",
+      "default": false,
+      "description": "Full report completed within 5 business days"
+    },
+    "full_report_completed_date": {
+      "type": "string",
+      "format": "date"
+    },
+    "support_coordinator_notified": {
+      "type": "boolean",
+      "default": false
+    },
+    "support_coordinator_notified_at": {
+      "type": "string"
+    },
+    "guardian_notified": {
+      "type": "boolean",
+      "default": false
+    },
+    "guardian_notified_at": {
+      "type": "string"
+    },
+    "actions_taken": {
+      "type": "string"
+    },
+    "witnesses": {
+      "type": "string"
+    },
+    "follow_up_required": {
+      "type": "boolean",
+      "default": false
+    },
+    "follow_up_notes": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Open",
+        "Under Review",
+        "Resolved",
+        "Closed"
+      ],
+      "default": "Open"
+    }
+  },
+  "required": [
+    "client_id",
+    "date",
+    "type",
+    "severity",
+    "description"
+  ]
+}

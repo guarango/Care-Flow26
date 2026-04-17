@@ -215,6 +215,49 @@ export default function ClientIntakeForm({ form, setForm, editing, isAdmin, serv
         />
       </div>
 
+      {/* ── HIPAA / PHI ACCESS ── */}
+      <SectionHeader title="HIPAA / PHI Access (Policy #4800)" />
+
+      <div className="col-span-2">
+        <div className="bg-blue-50 border border-blue-200 rounded-lg px-3 py-2 text-xs text-blue-800 mb-3">
+          <strong>HIPAA Notice:</strong> Per Policy #4800, client PHI may only be shared with individuals listed below or as directed by the client/guardian. Do not share records through personal email, text, or unapproved channels.
+        </div>
+      </div>
+
+      <div className="col-span-2 flex items-center gap-2">
+        <input
+          type="checkbox"
+          id="guardian_phi"
+          checked={!!form.guardian_is_phi_decision_maker}
+          onChange={e => setForm({ ...form, guardian_is_phi_decision_maker: e.target.checked })}
+          className="w-4 h-4"
+        />
+        <label htmlFor="guardian_phi" className="text-sm cursor-pointer font-medium">Guardian is the authorized PHI decision-maker for this client</label>
+      </div>
+
+      <div className="col-span-2">
+        <p className="text-xs font-medium text-foreground mb-2">PHI-Authorized Contacts <span className="text-muted-foreground font-normal">(individuals authorized to receive PHI)</span></p>
+        {(form.phi_authorized_contacts || []).map((contact, idx) => (
+          <div key={idx} className="border border-border rounded-lg p-3 mb-2 grid grid-cols-2 gap-2">
+            <div><Label className="text-xs text-muted-foreground">Name</Label><input className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm" value={contact.name || ""} onChange={e => { const updated = [...(form.phi_authorized_contacts || [])]; updated[idx] = { ...updated[idx], name: e.target.value }; setForm({ ...form, phi_authorized_contacts: updated }); }} /></div>
+            <div><Label className="text-xs text-muted-foreground">Relationship</Label><input className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm" value={contact.relationship || ""} onChange={e => { const updated = [...(form.phi_authorized_contacts || [])]; updated[idx] = { ...updated[idx], relationship: e.target.value }; setForm({ ...form, phi_authorized_contacts: updated }); }} /></div>
+            <div><Label className="text-xs text-muted-foreground">Phone</Label><input className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm" value={contact.phone || ""} onChange={e => { const updated = [...(form.phi_authorized_contacts || [])]; updated[idx] = { ...updated[idx], phone: e.target.value }; setForm({ ...form, phi_authorized_contacts: updated }); }} /></div>
+            <div><Label className="text-xs text-muted-foreground">Email</Label><input className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm" value={contact.email || ""} onChange={e => { const updated = [...(form.phi_authorized_contacts || [])]; updated[idx] = { ...updated[idx], email: e.target.value }; setForm({ ...form, phi_authorized_contacts: updated }); }} /></div>
+            <div className="col-span-2 flex items-end justify-between gap-2">
+              <div className="flex-1"><Label className="text-xs text-muted-foreground">Authorized PHI Categories</Label><input className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm" placeholder="e.g. Medical info, Progress notes, All PHI" value={contact.authorized_categories || ""} onChange={e => { const updated = [...(form.phi_authorized_contacts || [])]; updated[idx] = { ...updated[idx], authorized_categories: e.target.value }; setForm({ ...form, phi_authorized_contacts: updated }); }} /></div>
+              <button type="button" onClick={() => { const updated = (form.phi_authorized_contacts || []).filter((_, i) => i !== idx); setForm({ ...form, phi_authorized_contacts: updated }); }} className="text-xs text-destructive hover:underline mb-1">Remove</button>
+            </div>
+          </div>
+        ))}
+        <button
+          type="button"
+          onClick={() => setForm({ ...form, phi_authorized_contacts: [...(form.phi_authorized_contacts || []), { name: "", relationship: "", phone: "", email: "", authorized_categories: "" }] })}
+          className="text-xs text-primary hover:underline"
+        >
+          + Add Authorized Contact
+        </button>
+      </div>
+
       {/* ── OTHER ── */}
       <SectionHeader title="Other" />
 
